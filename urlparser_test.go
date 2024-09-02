@@ -77,6 +77,12 @@ func TestUrlParser_Parse(t *testing.T) {
 				Favorite: 4034,
 			},
 		},
+		{
+			name: "test03-bv-url",
+			args: args{
+				url: "https://b23.tv/MZLsTCt",
+			},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -86,20 +92,22 @@ func TestUrlParser_Parse(t *testing.T) {
 				t.Errorf("Parse() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
-			if got == nil {
-				t.Errorf("case: %s parse is nil", tt.name)
-			}
-			switch true {
-			case !strings.Contains(got.Title, tt.want.Title):
-				t.Errorf("case: %s got.title(%s) Contain (%s)", tt.name, got.Title, tt.want.Title)
-			case got.View < tt.want.View:
-				t.Errorf("case: %s got.view(%d)<(%d)", tt.name, got.View, tt.want.View)
-			case got.Coin < tt.want.Coin:
-				t.Errorf("case: %s got.coin(%d)<(%d)", tt.name, got.Coin, tt.want.Coin)
-			case got.Like < tt.want.Like:
-				t.Errorf("case: %s got.like(%d)<(%d)", tt.name, got.Like, tt.want.Like)
-			case got.Favorite < tt.want.Favorite:
-				t.Errorf("case: %s got.fav(%d)<(%d)", tt.name, got.Favorite, tt.want.Favorite)
+			if tt.want != nil {
+				if got == nil {
+					t.Errorf("case: %s parse is nil", tt.name)
+				}
+				switch true {
+				case !strings.Contains(got.Title, tt.want.Title):
+					t.Errorf("case: %s got.title(%s) Contain (%s)", tt.name, got.Title, tt.want.Title)
+				case got.View < tt.want.View:
+					t.Errorf("case: %s got.view(%d)<(%d)", tt.name, got.View, tt.want.View)
+				case got.Coin < tt.want.Coin:
+					t.Errorf("case: %s got.coin(%d)<(%d)", tt.name, got.Coin, tt.want.Coin)
+				case got.Like < tt.want.Like:
+					t.Errorf("case: %s got.like(%d)<(%d)", tt.name, got.Like, tt.want.Like)
+				case got.Favorite < tt.want.Favorite:
+					t.Errorf("case: %s got.fav(%d)<(%d)", tt.name, got.Favorite, tt.want.Favorite)
+				}
 			}
 			t.Log(fmt.Sprintf("videoInfo: %+v", got))
 		})
