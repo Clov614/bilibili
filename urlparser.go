@@ -20,7 +20,8 @@ var firstUrl = "https://www.bilibili.com/video/"
 var defaultUA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.0 Safari/605.1.15"
 
 var (
-	parseErr = errors.New("parse error")
+	parseErr         = errors.New("parse error")
+	invalidVideoInfo = errors.New("invalid video info")
 )
 
 type UrlParser struct {
@@ -111,6 +112,10 @@ func parseVideoInfo(htmldata string) (*VideoInfo, error) {
 			videoInfo.UpName = fmt.Sprintf("%s", submatch[0][2])
 		}
 
+	}
+	// 校验是否为异常状态
+	if videoInfo.Bvid == "" || (videoInfo.Tname == "" && videoInfo.View == 0) {
+		return nil, fmt.Errorf("videoInfo is nil: %w", invalidVideoInfo)
 	}
 	return &videoInfo, nil
 }

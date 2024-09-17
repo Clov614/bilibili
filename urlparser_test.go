@@ -83,6 +83,13 @@ func TestUrlParser_Parse(t *testing.T) {
 				url: "https://b23.tv/MZLsTCt",
 			},
 		},
+		{
+			name: "test04-nil-err",
+			args: args{
+				url: exampleurl,
+			},
+			wantErr: true,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
